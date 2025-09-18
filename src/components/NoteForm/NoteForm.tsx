@@ -12,7 +12,7 @@ const NoteForm = () => {
           className={css.input}
         />
         <span
-          name="title"
+          //name="title"
           className={css.error}
         />
       </div>
@@ -26,7 +26,7 @@ const NoteForm = () => {
           className={css.textarea}
         />
         <span
-          name="content"
+          //name="content"
           className={css.error}
         />
       </div>
@@ -45,7 +45,7 @@ const NoteForm = () => {
           <option value="Shopping">Shopping</option>
         </select>
         <span
-          name="tag"
+          //name="tag"
           className={css.error}
         />
       </div>
