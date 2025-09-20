@@ -4,7 +4,6 @@ import type { Note, NoteTag } from "../types/note";
 export interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
-  searchValue: string;
 }
 
 export interface CreateNoteRequest {

@@ -9,10 +9,6 @@ interface NoteListProps {
 }
 
 const NoteList = ({ notes, onSelect }: NoteListProps) => {
-  // if (!Array.isArray(notes)) {
-  //   return <p>No notes available</p>;
-  // }
-  // console.log("notes", notes);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (noteId: string) => deleteNote(noteId),
@@ -23,6 +19,7 @@ const NoteList = ({ notes, onSelect }: NoteListProps) => {
   const handleDelete = (noteId: string) => {
     mutation.mutate(noteId);
   };
+
   return (
     <ul className={css.list}>
       {notes.map((note) => (

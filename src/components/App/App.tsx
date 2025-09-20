@@ -1,13 +1,15 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import SearchBox from "../SearchBox/SearchBox";
 import css from "./App.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../Loader/Loader";
 import Modal from "../Modal/Modal";
 import NoteForm from "../NoteForm/NoteForm";
 import { fetchNotes } from "../../services/noteService";
 import NoteList from "../NoteList/NoteList";
 import Pagination from "../Pagination/Pagination";
+import { useDebouncedCallback } from "use-debounce";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,22 +20,34 @@ const App = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["notes", page, perPage, searchValue],
     queryFn: () => fetchNotes(page, perPage, searchValue),
     placeholderData: keepPreviousData,
   });
   console.log("data", data);
 
+  // const debouncedChange = useDebouncedCallback(setSearchValue, 1000);
+  const debouncedChange = useDebouncedCallback((val: string) => {
+    setSearchValue(val);
+  }, 1000);
+
+  useEffect(() => {
+    if (data && data.notes.length === 0) {
+      toast.error("No notes available.");
+    }
+  }, [data]);
+
   return (
     <div className={css.app}>
+      <Toaster position="top-center" />
       <header className={css.toolbar}>
         <SearchBox
-          searchValue={searchValue}
-          onChange={(value) => setSearchValue(value)}
+          value={searchValue}
+          onSearch={debouncedChange}
         />
 
-        {data && (
+        {isSuccess && data.totalPages > 1 && (
           <Pagination
             totalPages={data.totalPages}
             currentPage={page}
