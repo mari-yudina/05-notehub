@@ -13,12 +13,14 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage] = useState(12);
+  const [searchValue, setSearchValue] = useState("");
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["notes", page, perPage],
-    queryFn: () => fetchNotes(page, perPage),
+    queryKey: ["notes", page, perPage, searchValue],
+    queryFn: () => fetchNotes(page, perPage, searchValue),
     placeholderData: keepPreviousData,
   });
   console.log("data", data);
@@ -26,7 +28,10 @@ const App = () => {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox />
+        <SearchBox
+          searchValue={searchValue}
+          onChange={(value) => setSearchValue(value)}
+        />
 
         {data && (
           <Pagination

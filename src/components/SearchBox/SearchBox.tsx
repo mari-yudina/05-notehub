@@ -1,24 +1,19 @@
-import { useState } from "react";
-import css from "./SearchBox.module.css";
-import { useQuery } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
+import css from "./SearchBox.module.css";
 
-const SearchBox = () => {
-  const [searchValue, setSearchValue] = useState("");
+interface SearchBoxProps {
+  searchValue: string;
+  onChange: (searchValue: string) => void;
+}
 
-  const handleChange = useDebouncedCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchValue(e.target.value);
-    },
-    1000
-  );
+const SearchBox = ({ searchValue, onChange }: SearchBoxProps) => {
+  const debouncedChange = useDebouncedCallback((value: string) => {
+    onChange(value);
+  }, 1000);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["notes", searchValue],
-    queryFn: () => {
-      console.log("HTTP request..", searchValue);
-    },
-  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedChange(e.target.value);
+  };
 
   return (
     <div>
