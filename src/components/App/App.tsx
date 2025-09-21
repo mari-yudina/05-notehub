@@ -25,7 +25,6 @@ const App = () => {
     queryFn: () => fetchNotes(page, perPage, searchValue),
     placeholderData: keepPreviousData,
   });
-  console.log("data", data);
 
   // const debouncedChange = useDebouncedCallback(setSearchValue, 1000);
   const debouncedChange = useDebouncedCallback((val: string) => {
