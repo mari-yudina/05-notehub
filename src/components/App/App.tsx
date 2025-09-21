@@ -71,7 +71,7 @@ const App = () => {
         />
       )}
       {isModalOpen && (
-        <Modal>
+        <Modal onClose={closeModal}>
           <NoteForm onClose={closeModal} />
         </Modal>
       )}

@@ -13,6 +13,9 @@ const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
+
   return (
     <ReactPaginate
       nextLabel="→"
@@ -24,8 +27,11 @@ const Pagination = ({
       forcePage={currentPage - 1}
       containerClassName={css.pagination}
       activeClassName={css.active}
-      renderOnZeroPageCount={null}
+      disabledClassName={css.disabled}
+      previousClassName={isFirstPage ? css.disabled : ""}
+      nextClassName={isLastPage ? css.disabled : ""}
       marginPagesDisplayed={1}
+      renderOnZeroPageCount={null}
     />
   );
 };
