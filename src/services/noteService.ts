@@ -26,7 +26,7 @@ export const fetchNotes = async (
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("Відповідь з бекенду:", res.data);
+
   return res.data;
 };
 
@@ -36,7 +36,7 @@ export const createNote = async (data: CreateNoteRequest) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("Відповідь з бекенду:", res.data);
+
   return res.data;
 };
 
@@ -47,21 +47,3 @@ export const deleteNote = async (noteId: string) => {
     },
   });
 };
-
-// export interface UpdateNoteRequest {
-//   id: string;
-//   title: string;
-//   content: string;
-//   tag: NoteTag;
-//   updatedAt: string;
-// }
-
-// export const updatedAtNote = async (data: UpdateNoteRequest) => {
-//   const res = await axios.patch<Note>(`/notes/${data.id}`, data, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-//   console.log("PATCH:", res.data);
-//   return res.data;
-// };

@@ -50,8 +50,6 @@ const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
     values: NoteFormProps,
     formikHelpers: FormikHelpers<NoteFormProps>
   ) => {
-    console.log("values", values);
-    console.log("formikHelpers", formikHelpers);
     mutation.mutate(values);
     formikHelpers.resetForm();
   };
