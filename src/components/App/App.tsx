@@ -18,7 +18,10 @@ const App = () => {
   const [searchValue, setSearchValue] = useState("");
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSearchValue("");
+  };
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["notes", page, perPage, searchValue],

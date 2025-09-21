@@ -10,6 +10,7 @@ const SearchBox = ({ onSearch, value }: SearchBoxProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(e.target.value);
   };
+  console.log("VALUE", value);
 
   return (
     <div>
