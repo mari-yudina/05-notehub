@@ -7,17 +7,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "../../services/noteService";
 import type { CreateNoteRequest } from "../../types/note";
 
-interface NoteFormOnCloseProps {
+interface NoteFormProps {
   onClose: () => void;
 }
 
-interface NoteFormProps {
+interface NoteFormValues {
   title: string;
   content: string;
   tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 }
 
-const defaultFormData: NoteFormProps = {
+const defaultFormData: NoteFormValues = {
   title: "",
   content: "",
   tag: "Todo",
@@ -26,15 +26,15 @@ const defaultFormData: NoteFormProps = {
 const NoteFormSchema = Yup.object().shape({
   title: Yup.string()
     .min(3, "Title must be at least 3 characters")
-    .max(50, "To long")
+    .max(50, "Too long")
     .required("Title is required"),
-  content: Yup.string().max(500, "To long"),
+  content: Yup.string().max(500, "Too long"),
   tag: Yup.string()
     .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"])
-    .required("Required filed"),
+    .required("Required field"),
 });
 
-const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
+const NoteForm = ({ onClose }: NoteFormProps) => {
   const fieldId = useId();
   const queryClient = useQueryClient();
 
@@ -47,8 +47,8 @@ const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
   });
 
   const handleSubmit = (
-    values: NoteFormProps,
-    formikHelpers: FormikHelpers<NoteFormProps>
+    values: NoteFormValues,
+    formikHelpers: FormikHelpers<NoteFormValues>
   ) => {
     mutation.mutate(values);
     formikHelpers.resetForm();
@@ -64,7 +64,7 @@ const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
         <div className={css.formGroup}>
           <label htmlFor={`${fieldId}-title`}>Title</label>
           <Field
-            id="title"
+            id={`${fieldId}-title`}
             type="text"
             name="title"
             className={css.input}
@@ -80,7 +80,8 @@ const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
         <div className={css.formGroup}>
           <label htmlFor={`${fieldId}-content`}>Content</label>
           <Field
-            id="content"
+            as="textarea"
+            id={`${fieldId}-content`}
             name="content"
             rows={8}
             className={css.textarea}
@@ -97,7 +98,7 @@ const NoteForm = ({ onClose }: NoteFormOnCloseProps) => {
           <label htmlFor={`${fieldId}-tag`}>Tag</label>
           <Field
             as="select"
-            id="tag"
+            id={`${fieldId}-tag`}
             name="tag"
             className={css.select}
           >

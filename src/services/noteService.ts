@@ -17,11 +17,10 @@ axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 export const fetchNotes = async (
   page: number = 1,
-  perPage: number = 12,
   searchValue: string
 ): Promise<FetchNotesResponse> => {
   const res = await axios.get<FetchNotesResponse>("/notes", {
-    params: { page, perPage, search: searchValue },
+    params: { page, search: searchValue },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -41,9 +40,12 @@ export const createNote = async (data: CreateNoteRequest) => {
 };
 
 export const deleteNote = async (noteId: string) => {
-  await axios.delete<Note>(`/notes/${noteId}`, {
+  const res = await axios.delete<Note>(`/notes/${noteId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(res.data);
+
+  return res.data;
 };

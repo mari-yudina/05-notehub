@@ -14,7 +14,6 @@ import toast, { Toaster } from "react-hot-toast";
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [perPage] = useState(12);
   const [searchValue, setSearchValue] = useState("");
 
   const openModal = () => setIsModalOpen(true);
@@ -24,8 +23,8 @@ const App = () => {
   };
 
   const { data, isLoading, isSuccess } = useQuery({
-    queryKey: ["notes", page, perPage, searchValue],
-    queryFn: () => fetchNotes(page, perPage, searchValue),
+    queryKey: ["notes", page, searchValue],
+    queryFn: () => fetchNotes(page, searchValue),
     placeholderData: keepPreviousData,
   });
 
@@ -33,6 +32,10 @@ const App = () => {
   const debouncedChange = useDebouncedCallback((val: string) => {
     setSearchValue(val);
   }, 1000);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchValue]);
 
   useEffect(() => {
     if (data && data.notes.length === 0) {
