@@ -24,7 +24,7 @@ const App = () => {
   const debouncedChange = useDebouncedCallback((val: string) => {
     setPage(1);
     setSearchValue(val);
-  }, 3000);
+  }, 1000);
 
   const handleInputChange = (val: string) => {
     setInputValue(val);
