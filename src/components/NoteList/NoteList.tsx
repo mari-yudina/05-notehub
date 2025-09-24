@@ -5,10 +5,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface NoteListProps {
   notes: Note[];
-  onSelect: (note: Note) => void;
 }
 
-const NoteList = ({ notes, onSelect }: NoteListProps) => {
+const NoteList = ({ notes }: NoteListProps) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (noteId: string) => deleteNote(noteId),
@@ -26,7 +25,6 @@ const NoteList = ({ notes, onSelect }: NoteListProps) => {
         <li
           className={css.listItem}
           key={note.id}
-          onClick={() => onSelect(note)}
         >
           <h2 className={css.title}>{note.title}</h2>
           <p className={css.content}>{note.content}</p>

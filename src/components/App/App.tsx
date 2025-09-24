@@ -19,7 +19,6 @@ const App = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    setSearchValue("");
   };
 
   const { data, isLoading, isSuccess } = useQuery({
@@ -69,12 +68,7 @@ const App = () => {
       </header>
       {isLoading && <Loader />}
 
-      {data && !isLoading && (
-        <NoteList
-          notes={data.notes}
-          onSelect={() => {}}
-        />
-      )}
+      {data && !isLoading && <NoteList notes={data.notes} />}
       {isModalOpen && (
         <Modal onClose={closeModal}>
           <NoteForm onClose={closeModal} />
