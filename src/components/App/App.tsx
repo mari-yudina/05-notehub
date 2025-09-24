@@ -15,10 +15,20 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeModal = () => setIsModalOpen(false);
+
+  // const debouncedChange = useDebouncedCallback(setSearchValue, 1000);
+  const debouncedChange = useDebouncedCallback((val: string) => {
+    setPage(1);
+    setSearchValue(val);
+  }, 3000);
+
+  const handleInputChange = (val: string) => {
+    setInputValue(val);
+    debouncedChange(val);
   };
 
   const { data, isLoading, isSuccess } = useQuery({
@@ -26,15 +36,6 @@ const App = () => {
     queryFn: () => fetchNotes(page, searchValue),
     placeholderData: keepPreviousData,
   });
-
-  // const debouncedChange = useDebouncedCallback(setSearchValue, 1000);
-  const debouncedChange = useDebouncedCallback((val: string) => {
-    setSearchValue(val);
-  }, 1000);
-
-  useEffect(() => {
-    setPage(1);
-  }, [searchValue]);
 
   useEffect(() => {
     if (data && data.notes.length === 0) {
@@ -47,8 +48,8 @@ const App = () => {
       <Toaster position="top-center" />
       <header className={css.toolbar}>
         <SearchBox
-          value={searchValue}
-          onSearch={debouncedChange}
+          value={inputValue}
+          onSearch={handleInputChange}
         />
 
         {isSuccess && data.totalPages > 1 && (
